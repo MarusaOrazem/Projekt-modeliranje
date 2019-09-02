@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+ 
+       \textbf{\Huge{Bezierjeva krivulja in njen odmik}}
+ 
+       \vspace{0.5cm}
+        \Large{Poročilo projekta pri predmetu Matematično modeliranje}
+ 
+       \vspace{1.5cm}
+    \vfill
+       \textbf{Maruša Oražem}
+ 
+       
+ 
+       \includegraphics[width=0.4\textwidth]{logo}
+ 
+       \textsc{\large{Univerza v Ljubljani}}
+    
+        \textsc{\large{Fakulteta za matematiko in fiziko}}
+    
+     \textsc{\large{Oddelek za matematiko}}
+    \vfill\vfill
+ 
+   \end{center}
+\end{titlepage}
+
+
+
+
+\begin{document}
+
+\tableofcontents
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+\section{Predstavitev}
+V nalogi so predstavljene Bezierjeve krivulje. Le te dobimo s pomočjo de Casteljauovega algoritma, ki je osnovni algoritev pri konstrukciji Bezierjevih krivulj. Poleg tega naloga vključuje tudi odmik Bezierjeve krivulje, to je krivulja, ki jo dobimo tako, da vsaki točki originalne krivulje priredimo novo točko v normalni smeri na oddaljenosti za neko konstanto d.
+
+
+\section{de Casteljauov algoritem}
+De Casteljavou algoritem je osnovni algoritem, s pomočjo katerega izračunamo vrednost točke na Bezierjevi krivuljio.
+Razvil ga je Paul de Casteljau (rojen leta 1930 v Franciji), francoski fizik in matematik.
+
+\subsection{Primer poteka algoritma}
+Za lažjo razlago, si oglejmo primer.
+Imamo podane kontrolne točke P0,P1,P2,P3,P4 in parametr t=3/4.
+V prvem koraku definiramo bj0 := Pj.
+V drugem koraku izračunamo bj1 :=(1-t)bj0 + tbj+10.
+Za dani primer dobimo:
+
+3,4,5 korak
+
+Vidimo da je to zadnji primer, ki ga lahko izračunamo, tako dobimo točko na Bezierjevi kruvilji.
+
+Spodaj je še grafičen prikaz poteka algoritma. Rdeča barva predstavlja Bezierjevo krivuljo, modra pa začetni poligon, ki ga določajo kontrolne točke. Nato izvajamo opisani algoritem in dobimo končno točko na krivulji.
+
+
+slikce
+
+
+\subsection{Algoritem}
+vhodni Podatki p0,...,pn € R\^n, t€[0,1]
+definiramo bj0(t) = pj,
+ponavljamo
+
+izhod, točka na krivulji
+
+Implementacija algoritma se nahaja v datoteki deCasteljau.m.
+V datoteki smo vmesne točke shranjevali v matriko velikosti (n+1)x(n+1), kjer je n število začetnih točk. Algoritem vrne končno točko na Bezierjevi krivulji.
+
+
+\section{Bezierjeva krivulja}
+Bezierjevo krivuljo dobimo s pomočjo de Casteljauvega algoritma in sicer tako, da izračunamo točke na krivulji za čimveč različnih parametrov. 
+Datoteka plotBezier.m nariše željeno krivuljo. Krivulja je definirana za parametr t €[0,1]. Tako dani interval razdelimo na čimvečje število delcev in pokličemo de Casteljavou algoritem na vsakem posebej.
+
+
+\section{Odmik krivulje}
+Odmik je krivulja, ki jo dobimo tako, da vsaki točki originalne krivulje
+priredimo točko, ki je na konstantni oddaljenosti d v normalni smeri.
+Normalo na krivuljo dobimo tako, da najprej izračunamo tangento v dani točki, normala pa je premica, ki je pravokotna na tangentno.
+Sepravi:
+knormale = -1/ktangente
+normalo še normiramo.
+
+Izračun tangente v dani točki je vsebovan v datoteki bezier\_der1.m, izračun normale pa v normala\_bez.m
+
+\section{Grafični prikaz Bezierjeve krivulje in njenega odmika}
+
+Spodaj je grafični prikaz Bezierjeve krivulje in njenega odmika, za primer začetnih točk: in parametra t1, t2.
+
+Implementacija je vsebovana v datoteki plot\_odmik.
+
+
+
+
+
+
+
+\end{document}
