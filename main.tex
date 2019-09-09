@@ -1,6 +1,13 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {c:/user/Acer/desktop/faks/matematično modeliranje/projekt} }
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{eurosym}
 
+\begin{document}
 \begin{titlepage}
    \begin{center}
        \vspace*{1cm}
@@ -15,8 +22,10 @@
        \textbf{Maruša Oražem}
  
        
- 
-       \includegraphics[width=0.4\textwidth]{logo}
+ \begin{figure}[!ht]
+\centering
+       \includegraphics{fmf.png}
+\end{figure}
  
        \textsc{\large{Univerza v Ljubljani}}
     
@@ -31,7 +40,7 @@
 
 
 
-\begin{document}
+
 
 \tableofcontents
 
@@ -56,55 +65,89 @@ De Casteljavou algoritem je osnovni algoritem, s pomočjo katerega izračunamo v
 Razvil ga je Paul de Casteljau (rojen leta 1930 v Franciji), francoski fizik in matematik.
 
 \subsection{Primer poteka algoritma}
-Za lažjo razlago, si oglejmo primer.
-Imamo podane kontrolne točke P0,P1,P2,P3,P4 in parametr t=3/4.
-V prvem koraku definiramo bj0 := Pj.
-V drugem koraku izračunamo bj1 :=(1-t)bj0 + tbj+10.
-Za dani primer dobimo:
+Za lažjo razlago, si oglejmo primer. \\
+Imamo podane kontrolne točke $P_0=(0,5),P_1=(1,-1),P_2=(3,0),P_3=(4,3),P_4=(6,10)$ in parametr $t=3/4$. \\
+V prvem koraku definiramo $b_{j}^{0} := P_{j},j=0,1,2,3,4$. \\
+Potem računamo $b_{j}^k(t) :=(1-t)b_{j}^{k-1}(t) + tb_{j+1}^{k-1}(t), k = 1,...,4, j = 0,1,...4-k$.
+Rezultat $b_{0}^4(t)$ je točka na Bezierjevi krivulji.\\
+Slika spodaj prikazuje potek zgornjega postopka. \\
+Črna barva predstavlja začetne točke (kontrolni poligon) oziroma prvi korak, rdeča barva končno Bezierjevo krivuljo, naslednji koraki si sledijo z modro barvo, oranžno in rumeno. Z zeleno zvezdico je označena končna izračunana točka.
 
-3,4,5 korak
+ \begin{figure}[!ht]
+\centering
+       \includegraphics[width=120mm]{koncna.png}
+\end{figure}
 
-Vidimo da je to zadnji primer, ki ga lahko izračunamo, tako dobimo točko na Bezierjevi kruvilji.
 
-Spodaj je še grafičen prikaz poteka algoritma. Rdeča barva predstavlja Bezierjevo krivuljo, modra pa začetni poligon, ki ga določajo kontrolne točke. Nato izvajamo opisani algoritem in dobimo končno točko na krivulji.
-
-
-slikce
 
 
 \subsection{Algoritem}
-vhodni Podatki p0,...,pn € R\^n, t€[0,1]
-definiramo bj0(t) = pj,
-ponavljamo
+\textbf{Vhodni podatki:} $P_0,...,P_n\in R^n, t\in [0,1]$. \\
+\textbf{Definiramo:} $b_j^0(t) = P_j$,\\
+\textbf{Ponavljamo:}  $b_{j}^k(t) :=(1-t)b_{j}^{k-1}(t) + tb_{j+1}^{k-1}(t), k = 1,...,n, j = 0,1,...n-k$.\\
+\textbf{Izhod:} $b_0^n(t)$ točka na krivulji.\\
 
-izhod, točka na krivulji
 
-Implementacija algoritma se nahaja v datoteki deCasteljau.m.
-V datoteki smo vmesne točke shranjevali v matriko velikosti (n+1)x(n+1), kjer je n število začetnih točk. Algoritem vrne končno točko na Bezierjevi krivulji.
+Implementacija algoritma se nahaja v datoteki $deCasteljau.m$.
+V datoteki smo vmesne točke shranjevali v matriko velikosti $(n+1)\times(n+1)$, kjer je $n$ število začetnih točk. Algoritem vrne končno točko na Bezierjevi krivulji.
 
 
 \section{Bezierjeva krivulja}
 Bezierjevo krivuljo dobimo s pomočjo de Casteljauvega algoritma in sicer tako, da izračunamo točke na krivulji za čimveč različnih parametrov. 
-Datoteka plotBezier.m nariše željeno krivuljo. Krivulja je definirana za parametr t €[0,1]. Tako dani interval razdelimo na čimvečje število delcev in pokličemo de Casteljavou algoritem na vsakem posebej.
+Datoteka $plotBezier.m$ nariše željeno krivuljo. Krivulja je definirana za parametr $t\in [0,1]$. Tako dani interval razdelimo na čimvečje število delcev in pokličemo de Casteljavou algoritem na vsakem posebej.
 
 
 \section{Odmik krivulje}
 Odmik je krivulja, ki jo dobimo tako, da vsaki točki originalne krivulje
 priredimo točko, ki je na konstantni oddaljenosti d v normalni smeri.
-Normalo na krivuljo dobimo tako, da najprej izračunamo tangento v dani točki, normala pa je premica, ki je pravokotna na tangentno.
-Sepravi:
-knormale = -1/ktangente
-normalo še normiramo.
+Normalo na krivuljo dobimo tako, da najprej izračunamo tangento v dani točki, normala pa je premica, ki je pravokotna na tangentno.\\
+\\
+Izračun tangente v dani točki je vsebovan v datoteki $bezier\_der1.m$, izračun normale pa v $normala\_bez.m$. \\
+Glede na to kako orientiramo krivuljo, imamo dve različi smeri normalnega vektorja. Normalni vektor je lahko obrnjen ali navznoter ali pa navzven. Pri izrisu "odmika" vidimo, da je slika veliko lepša, če normalo obrnemo navzven. Če jo obrnemo navznoter, pridejo zelo čudne stvari.
+Spodaj je grafični prikaz Bezierjeve krivulje in njenega odmika, za enak primer začetnih točk in različne parametre.\\
+Implementacija je vsebovana v datoteki $plot\_odmik$.
+\newpage
+ \begin{figure}[!ht]
+\centering
+       \includegraphics[width=70mm]{odmik1.png}
+	\caption{Normala obrnjena navznoter, d = 0.5.}
+\end{figure}
 
-Izračun tangente v dani točki je vsebovan v datoteki bezier\_der1.m, izračun normale pa v normala\_bez.m
+ \begin{figure}[!ht]
+\centering
+       \includegraphics[width=70mm]{odmik2.png}
+	\caption{Normala obrnjena navznoter, d = 1.5.}
+\end{figure}
 
-\section{Grafični prikaz Bezierjeve krivulje in njenega odmika}
+ \begin{figure}[!ht]
+\centering
+       \includegraphics[width=70mm]{odmik3.png}
+		\caption{Normala obrnjena navznoter, d = 3.}
+\end{figure}
 
-Spodaj je grafični prikaz Bezierjeve krivulje in njenega odmika, za primer začetnih točk: in parametra t1, t2.
+\newpage
 
-Implementacija je vsebovana v datoteki plot\_odmik.
+ \begin{figure}[!ht]
+\centering
+       \includegraphics[width=70mm]{odmik4.png}
+		\caption{Normala obrnjena navzven, d = 1.}
+\end{figure}
+
+ \begin{figure}[!ht]
+\centering
+       \includegraphics[width=70mm]{odmik5.png}
+		\caption{Normala obrnjena navzven, d = 3.}
+\end{figure}
 
 
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{}
+Žagar, E. Bezierove krivulje. 2009. [9.9.2019]. Dostopno na http://mars.dmfa.si/mars2009/folije/Predavanje-Zagar.pdf.
+
+
+\end{thebibliography}
 
 
 

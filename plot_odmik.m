@@ -1,10 +1,8 @@
-function odmik = plot_odmik(b,d)
+function plot_odmik(b,d)
 
-c = 14;
-b = [-1,2,3,4;2,-3+c/100,0,3];
 
 B = plotBezier(b); %toèke na krivulji
-d = 20; %konstantna oddaljenost, ki doloèa odmik krivulje
+%konstantna oddaljenost, ki doloèa odmik krivulje
 %za vsako toèko na krivulji zraèunamo normalo in sicer tako, da najprej
 %izraèunamo tangentni vektor in pogledamo kateri vektor je pravokoten nanj
 %(normala)
@@ -27,9 +25,9 @@ plot(b(1,:),b(2,:),'k-o','MarkerFaceColor','k','LineWidth',1.5);
 
 
 
-odmik = B + d.* N;
-plot(odmik(1,:),odmik(2,:),'g','LineWidth',3)
-
+odmik = B .+( d.* N);
+axis equal
+plot(odmik(1,:),odmik(2,:),'g','LineWidth',3);
 hold off
 
 end
